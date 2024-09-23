@@ -60,9 +60,9 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              'assets/images/Moon.jpg', // Second image
-              width: 400,
-              height: 400,
+              'assets/images/HealthyGuppy.png', // Second image
+              width: 200,
+              height: 200,
             ),
             Text(
               'Name: $petName',
