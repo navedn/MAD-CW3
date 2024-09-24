@@ -1,0 +1,4 @@
+#Mon Sep 23 21:48:47 EDT 2024
+base.0=C\:\\Users\\nendo\\Desktop\\College Classes\\Mobile App Development\\digitalpet\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\nendo\Desktop\College Classes\Mobile App Development\digitalpet\build\windows\x64\CMakeFiles\fb385e2f27cce83eca41cc7793120fea\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{1F4F3E1C-FF6E-3982-B1C8-6CB3A8A0001D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
