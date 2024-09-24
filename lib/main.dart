@@ -15,8 +15,8 @@ class DigitalPetApp extends StatefulWidget {
 
 class _DigitalPetAppState extends State<DigitalPetApp> {
   String petName = "Guppy";
-  int happinessLevel = 0;
-  int hungerLevel = 90;
+  int happinessLevel = 50;
+  int hungerLevel = 50;
   Timer? hungerTimer;
   Timer? winConditionTimer;
   Timer? checkGameOverTimer;
