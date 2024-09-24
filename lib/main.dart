@@ -15,9 +15,14 @@ class DigitalPetApp extends StatefulWidget {
 
 class _DigitalPetAppState extends State<DigitalPetApp> {
   String petName = "Guppy";
-  int happinessLevel = 50;
-  int hungerLevel = 50;
+  int happinessLevel = 0;
+  int hungerLevel = 90;
   Timer? hungerTimer;
+  Timer? winConditionTimer;
+  Timer? checkGameOverTimer;
+  int winTimerSeconds = 0;
+  bool hasWon = false;
+  bool gameOver = false;
   Color petColor = Colors.yellow;
   final TextEditingController _controller = TextEditingController();
 
@@ -25,12 +30,13 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     super.initState();
     // Start the hunger timer that increases hunger every 30 seconds
     startHungerTimer();
+    startGameStatusTimer();
   }
 
   void startHungerTimer() {
     hungerTimer = Timer.periodic(Duration(seconds: 30), (timer) {
       setState(() {
-        hungerLevel = (hungerLevel + 5).clamp(0, 100); // Increase hunger
+        hungerLevel = (hungerLevel + 10).clamp(0, 100); // Increase hunger
         if (hungerLevel >= 100) {
           hungerLevel = 100;
         }
@@ -39,8 +45,64 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
     });
   }
 
+  void startGameStatusTimer() {
+    checkGameOverTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (happinessLevel > 80) {
+        winTimerSeconds++;
+      } else {
+        winTimerSeconds = 0; // Reset if happiness drops below 80
+      }
+
+      // Check if the user has won
+      if (winTimerSeconds >= 180) {
+        // 3 minutes = 180 seconds
+        setState(() {
+          hasWon = true;
+          timer.cancel(); // Stop the timer once the game is won
+          showWinDialog();
+        });
+      }
+
+      // Check if the user has lost (hunger 100 and happiness 10 or less)
+      if (hungerLevel >= 100 && happinessLevel <= 10) {
+        setState(() {
+          gameOver = true;
+          timer.cancel();
+          showGameOverDialog(); // Stop the timer once the game is over
+        });
+      }
+    });
+  }
+
+  void showWinDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevents dismissing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Congratulations!"),
+          content: Text("You win!!! Your pet is happy!"),
+        );
+      },
+    );
+  }
+
+  void showGameOverDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevents dismissing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Game Over!"),
+          content: Text("Your pet is dead!!!"),
+        );
+      },
+    );
+  }
+
 // Function to increase happiness and update hunger when playing with the pet
   void _playWithPet() {
+    if (gameOver || hasWon) return;
     setState(() {
       happinessLevel = (happinessLevel + 10).clamp(0, 100);
       _updateHunger();
@@ -50,6 +112,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
 
 // Function to decrease hunger and update happiness when feeding the pet
   void _feedPet() {
+    if (gameOver || hasWon) return;
     setState(() {
       hungerLevel = (hungerLevel - 10).clamp(0, 100);
       _updateHappiness();
@@ -68,7 +131,7 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
 
 // Increase hunger level slightly when playing with the pet
   void _updateHunger() {
-    hungerLevel = (hungerLevel + 5).clamp(0, 100);
+    hungerLevel = (hungerLevel + 10).clamp(0, 100);
     if (hungerLevel > 100) {
       hungerLevel = 100;
       happinessLevel = (happinessLevel - 20).clamp(0, 100);
@@ -87,11 +150,11 @@ class _DigitalPetAppState extends State<DigitalPetApp> {
 
   String _getPetMood() {
     if (happinessLevel > 70) {
-      return "Happy";
+      return "Happy 😊";
     } else if (happinessLevel >= 30 && happinessLevel <= 70) {
-      return "Neutral";
+      return "Neutral 😐";
     } else {
-      return "Unhappy";
+      return "Unhappy 😞";
     }
   }
 
